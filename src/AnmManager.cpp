@@ -14,9 +14,9 @@
 #include <cstring>
 #include <new>
 
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_rwops.h>
-#include <SDL2/SDL_surface.h>
+#include <SDL_image.h>
+#include <SDL_rwops.h>
+#include <SDL_surface.h>
 
 VertexTex1Xyzrhw g_PrimitivesToDrawVertexBuf[4];
 VertexTex1DiffuseXyzrhw g_PrimitivesToDrawNoVertexBuf[4];

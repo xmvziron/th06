@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SDL2/SDL_video.h>
+#include <SDL_video.h>
 
 #include "GLFunc.hpp"
 #include "inttypes.hpp"
@@ -14,11 +14,11 @@
 //   At some point there should be a method to change this without recompiling but for now
 //   this'll do
 #ifndef GAME_WINDOW_WIDTH_REAL
-#define GAME_WINDOW_WIDTH_REAL (GAME_WINDOW_WIDTH)
+#define GAME_WINDOW_WIDTH_REAL 1280
 #endif
 
 #ifndef GAME_WINDOW_HEIGHT_REAL
-#define GAME_WINDOW_HEIGHT_REAL (GAME_WINDOW_HEIGHT)
+#define GAME_WINDOW_HEIGHT_REAL 720
 #endif
 
 #define VIEWPORT_WIDTH GAME_WINDOW_WIDTH_REAL
@@ -58,7 +58,14 @@ struct GameWindow
     static i32 InitD3dRendering();
     static void InitD3dDevice();
 
+    void Resize(int width, int height)
+    {
+        this->width = width;
+        this->height = height;
+    }
+
     SDL_Window *window;
+    int width, height;
     SDL_GLContext glContext;
     i32 isAppClosing;
     i32 lastActiveAppValue;

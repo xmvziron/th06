@@ -2,7 +2,7 @@
 #include "Supervisor.hpp"
 #include "utils.hpp"
 #include <new>
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 // Provided for anyone who wants to recompile with new shaders without rerunning the premake script
 #ifdef USE_C23_EMBED

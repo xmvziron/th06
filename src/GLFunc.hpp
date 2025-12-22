@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SDL2/SDL_opengl.h>
+#include <SDL_opengl.h>
 
 // Function pointers for OpenGL functions used in EoSD. This is necessary because Windows
 //   opengl32 only goes up to OpenGL 1.1 and some of the blending parameters we need are
@@ -16,18 +16,19 @@ struct GLFuncTable
     void glDepthRangef(GLclampf near_val, GLclampf far_val);
 
     // Function pointers for functions shared between GL and GLES
-    void GLAPIENTRY (*glAlphaFunc)(GLenum func, GLclampf ref);
-    void GLAPIENTRY (*glBindTexture)(GLenum target, GLuint texture);
-    void GLAPIENTRY (*glBlendFunc)(GLenum sfactor, GLenum dfactor);
-    void GLAPIENTRY (*glClear)(GLbitfield mask);
-    void GLAPIENTRY (*glClearColor)(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha);
-    void GLAPIENTRY (*glColorPointer)(GLint size, GLenum type, GLsizei stride, const GLvoid *ptr);
-    void GLAPIENTRY (*glDeleteTextures)(GLsizei n, const GLuint *textures);
-    void GLAPIENTRY (*glDepthFunc)(GLenum func);
-    void GLAPIENTRY (*glDepthMask)(GLboolean flag);
-    void GLAPIENTRY (*glDisableClientState)(GLenum cap);
-    void GLAPIENTRY (*glDrawArrays)(GLenum mode, GLint first, GLsizei count);
-    void GLAPIENTRY (*glEnable)(GLenum cap);
+    void (GLAPIENTRY *glAlphaFunc)(GLenum func, GLclampf ref);
+    void (GLAPIENTRY *glBindTexture)(GLenum target, GLuint texture);
+    void (GLAPIENTRY *glBlendFunc)(GLenum sfactor, GLenum dfactor);
+    void (GLAPIENTRY *glClear)(GLbitfield mask);
+    void (GLAPIENTRY *glClearColor)(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha);
+    void (GLAPIENTRY *glColorPointer)(GLint size, GLenum type, GLsizei stride, const GLvoid *ptr);
+    void (GLAPIENTRY *glDeleteTextures)(GLsizei n, const GLuint *textures);
+    void (GLAPIENTRY *glDepthFunc)(GLenum func);
+    void (GLAPIENTRY *glDepthMask)(GLboolean flag);
+     void (GLAPIENTRY *glDisable)(GLenum cap);
+    void (GLAPIENTRY *glDisableClientState)(GLenum cap);
+    void (GLAPIENTRY *glDrawArrays)(GLenum mode, GLint first, GLsizei count);
+    void (GLAPIENTRY *glEnable)(GLenum cap);
     void GLAPIENTRY (*glEnableClientState)(GLenum cap);
     void GLAPIENTRY (*glFogf)(GLenum pname, GLfloat param);
     void GLAPIENTRY (*glFogfv)(GLenum pname, const GLfloat *params);

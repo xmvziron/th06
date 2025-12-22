@@ -66,6 +66,7 @@ project "th06"
     "src/Stage.cpp",
     "src/Supervisor.cpp",
     "src/TextHelper.cpp",
+    "src/TouchScreenManager.cpp",
     "src/utils.cpp",
     "src/ZunTimer.cpp",
     "src/graphics/FixedFunctionGL.cpp",
@@ -132,6 +133,7 @@ project "th06"
     local SDL2_DIR       = os.getenv("SDL2_DIR")
     local SDL2_IMAGE_DIR = os.getenv("SDL2_IMAGE_DIR")
     local SDL2_TTF_DIR   = os.getenv("SDL2_TTF_DIR")
+    local ICONV_DIR      = os.getenv("ICONV_DIR")
 
     if SDL2_DIR then
       includedirs { SDL2_DIR .. "/include" }
@@ -153,6 +155,15 @@ project "th06"
       filter { "architecture:x86"    } libdirs { SDL2_TTF_DIR .. "/lib/x86" }
       filter {}
     end
+
+    if ICONV_DIR then
+      includedirs { ICONV_DIR .. "/include" }
+      filter { "architecture:x86_64" } libdirs { SDL2_TTF_DIR .. "/lib/x64" }
+      filter { "architecture:x86" } libdirs { SDL2_TTF_DIR .. "/lib/x86" }
+      filter {}
+    end
+
+    
   filter {}
 
   filter { "system:windows", "action:not vs*" }

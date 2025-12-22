@@ -15,12 +15,13 @@
 #include "Rng.hpp"
 #include "SoundPlayer.hpp"
 #include "TextHelper.hpp"
+#include "TouchScreenManager.hpp"
 #include "i18n.hpp"
 #include "inttypes.hpp"
 #include "utils.hpp"
 
-#include <SDL2/SDL_joystick.h>
-#include <SDL2/SDL_timer.h>
+#include <SDL_joystick.h>
+#include <SDL_timer.h>
 #include <cstdio>
 #include <cstring>
 #include <ctime>
@@ -227,6 +228,9 @@ ChainCallbackResult Supervisor::OnUpdate(Supervisor *s)
 
     s->wantedState = s->curState;
     s->calcCount++;
+
+    g_TouchScreenManager.OnUpdate();
+
     return CHAIN_CALLBACK_RESULT_CONTINUE;
 }
 
@@ -242,6 +246,9 @@ ChainCallbackResult Supervisor::OnDraw(Supervisor *s)
     anmm4->currentBlendMode = 0xff;
 
     Supervisor::DrawFpsCounter();
+
+    g_TouchScreenManager.OnDraw();
+
     return CHAIN_CALLBACK_RESULT_CONTINUE;
 }
 
@@ -358,6 +365,11 @@ ZunResult Supervisor::AddedCallback(Supervisor *s)
     s->ReleasePbg3(IN_PBG3_INDEX);
     if (g_Supervisor.LoadPbg3(MD_PBG3_INDEX, TH_MD_DAT_FILE) != 0)
         return ZUN_ERROR;
+    
+    if (g_TouchScreenManager.Init() != ZUN_SUCCESS)
+    {
+        GameErrorContext::Log(&g_GameErrorContext, "Warning: failed to initialize touch screen controls\n");
+    }
 
     return ZUN_SUCCESS;
 }
@@ -431,6 +443,11 @@ ZunResult Supervisor::SetupDInput(Supervisor *supervisor)
     //
     //    supervisor->keyboard->Acquire();
     GameErrorContext::Log(&g_GameErrorContext, TH_ERR_DIRECTINPUT_INITIALIZED);
+    
+    supervisor->virtualJoystick = SDL_JoystickAttachVirtual(SDL_JOYSTICK_TYPE_GAMECONTROLLER,
+                                                           SDL_CONTROLLER_AXIS_MAX,
+                                                           4,
+                                                           0);
 
     int numSticks = SDL_NumJoysticks();
 
@@ -628,6 +645,8 @@ i32 Supervisor::LoadPbg3(i32 pbg3FileIdx, char *filename)
         }
         else
         {
+            GameErrorContext::Log(&g_GameErrorContext, "failed to load %s\n", filename);
+
             delete this->pbg3Archives[pbg3FileIdx];
             // Let's really make sure this is null by nulling twice. I assume
             // there's some kind of inline function here, like it's actually

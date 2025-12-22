@@ -1,5 +1,6 @@
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_mouse.h>
+#include <SDL.h>
+#include <SDL_main.h>
+#include <SDL_mouse.h>
 #include <cstdio>
 
 #include "AnmManager.hpp"
@@ -10,14 +11,24 @@
 #include "SoundPlayer.hpp"
 #include "Stage.hpp"
 #include "Supervisor.hpp"
+#include "TouchScreenManager.hpp"
 #include "ZunResult.hpp"
 #include "i18n.hpp"
 #include "utils.hpp"
+
+#ifdef __ANDROID__
+#include <unistd.h>
+#endif
 
 int main(int argc, char *argv[])
 {
     (void)argc;
     (void)argv;
+
+#ifdef __ANDROID__
+    /* on Android, the default working directory is / */
+    chdir(SDL_AndroidGetExternalStoragePath());
+#endif
 
     i32 renderResult = 0;
     //    MSG msg;
@@ -83,6 +94,8 @@ restart:
 
         while (SDL_PollEvent(&e))
         {
+            g_TouchScreenManager.HandleEvent(&e);
+            
             if (e.type == SDL_QUIT)
             {
                 goto stop;
@@ -159,5 +172,7 @@ stop:
 
     SDL_ShowCursor(SDL_ENABLE);
     g_GameErrorContext.Flush();
+    SDL_Quit();
+
     return 0;
 }

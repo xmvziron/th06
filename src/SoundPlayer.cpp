@@ -5,8 +5,8 @@
 #include "i18n.hpp"
 #include "utils.hpp"
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_timer.h>
+#include <SDL.h>
+#include <SDL_timer.h>
 #include <array>
 #include <cmath>
 #include <cstring>
@@ -352,12 +352,16 @@ ZunResult SoundPlayer::LoadSound(i32 idx, const char *path, f32 volumeMultiplier
         goto fail;
     }
 
+
+
     if (SDL_LoadWAV_RW(SDL_RWFromConstMem(wavRawData, g_LastFileSize), 1, &wavFormat, &wavRawSamples,
                        &wavRawSampleByteCount) == NULL)
     {
         GameErrorContext::Log(&g_GameErrorContext, TH_ERR_NOT_A_WAV_FILE, path);
         goto fail;
     }
+
+
 
     // EoSD's sound files are all 22050 Hz, and some even use 8-bit samples. Converting them
     //   here only uses a few hundred extra kilobytes of RAM compared to the original code,
@@ -406,6 +410,8 @@ fail:
 ZunResult SoundPlayer::PlayBGM(bool isLooping)
 {
     utils::DebugPrint2("play BGM\n");
+
+
 
     if (this->backgroundMusic.srcWav.fileStream == NULL)
     {

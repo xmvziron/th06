@@ -104,7 +104,7 @@ u8 *FileSystem::OpenPath(const char *filepath, int isExternalResource)
         }
         if (entryIdx < 0)
         {
-            return NULL;
+            goto externalResource;
         }
     }
     if (entryIdx >= 0)
@@ -115,6 +115,7 @@ u8 *FileSystem::OpenPath(const char *filepath, int isExternalResource)
     }
     else
     {
+externalResource:
         utils::DebugPrint2("%s Load ... \n", filepath);
         file = FopenUTF8(filepath, "rb");
         if (file == NULL)

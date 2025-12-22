@@ -11,8 +11,8 @@
 #include "i18n.hpp"
 #include "utils.hpp"
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_timer.h>
+#include <SDL.h>
+#include <SDL_timer.h>
 #include <cstring>
 
 GameWindow g_GameWindow;
@@ -191,6 +191,10 @@ void GameWindow::CreateGameWindow()
     g_GameWindow.window = NULL;
     g_GameWindow.glContext = NULL;
 
+#if 0
+    flags |= SDL_WINDOW_RESIZABLE;
+#endif
+
     if (g_Supervisor.cfg.windowed == 0)
     {
         flags |= SDL_WINDOW_FULLSCREEN;
@@ -240,6 +244,8 @@ void GameWindow::CreateGameWindow()
     }
 
     g_Supervisor.gameWindow = g_GameWindow.window;
+    g_GameWindow.width = width;
+    g_GameWindow.height = height;
 
     g_GameWindow.lastActiveAppValue = 1;
 }

@@ -3,6 +3,8 @@
 #include <cstdio>
 #endif
 
+#include <SDL.h>
+
 #include "ZunMath.hpp"
 #include "i18n.hpp"
 #include "utils.hpp"
@@ -57,7 +59,6 @@ void Rotate(ZunVec3 *outVector, ZunVec3 *point, f32 angle)
 
 void DebugPrint2(const char *fmt, ...)
 {
-#ifdef DEBUG
     char tmpBuffer[512];
     std::va_list args;
 
@@ -65,7 +66,6 @@ void DebugPrint2(const char *fmt, ...)
     std::vsnprintf(tmpBuffer, 511, fmt, args);
     va_end(args);
 
-    std::printf("DEBUG2: %s\n", tmpBuffer);
-#endif
+    SDL_Log("DEBUG2: %s\n", tmpBuffer);
 }
 }; // namespace utils

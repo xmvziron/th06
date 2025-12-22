@@ -6,7 +6,7 @@
 #include "inttypes.hpp"
 #include "utils.hpp"
 
-#include <SDL2/SDL_endian.h>
+#include <SDL_endian.h>
 #include <cstdlib>
 #include <cstring>
 
